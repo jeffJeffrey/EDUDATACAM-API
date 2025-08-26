@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  edudatacam-server:
+    build: ./EDUDATACAM
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - postgres-cube-olap
+    networks:
+      - app-network
+
+  postgres-cube-olap:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Admin
+      - POSTGRES_DB=CUBE_OLAP
+    volumes:
+      - postgres-cube-olap-data:/var/lib/postgresql/data
+      - ./cube_olap.sql:/docker-entrypoint-initdb.d/cube_olap.sql
+    ports:
+      - "5434:5432"
+    networks:
+      - app-network
+
+volumes:
+  postgres-cube-olap-data:
+  db-data: ~
+
+networks:
+  app-network:
+    driver: bridge
