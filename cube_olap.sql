@@ -27,7 +27,7 @@ SET row_security = off;
 -- *not* creating schema, since initdb creates it
 
 
-ALTER SCHEMA public OWNER TO postgres;
+ALTER SCHEMA public OWNER TO edudatacam_user;
 
 SET default_tablespace = '';
 
